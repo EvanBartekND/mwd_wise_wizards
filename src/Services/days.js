@@ -1,4 +1,3 @@
-
 import Parse from "parse";
 
 
@@ -24,7 +23,7 @@ async function getByID(id) {
 async function getAllDays() {
   const Day = Parse.Object.extend("Day");
   const query = new Parse.Query(Day);
-  const results = await query.find(); // ✅ correct method
+  const results = await query.find();
   return results;
 }
 
@@ -37,5 +36,3 @@ async function deleteDay(id) {
 }
 
 module.exports = { createDay, getByID, getAllDays, deleteDay };
-
-	
