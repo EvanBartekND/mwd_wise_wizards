@@ -2,7 +2,7 @@ import Parse from "parse";
 
 export let People = {};
 People.collection = [];
-
+//create new person
 export const createPerson = (Name) => {
   console.log("Creating person:", Name);
   const Person = Parse.Object.extend("people");
@@ -19,7 +19,7 @@ export const createPerson = (Name) => {
       console.log("Error creating person:", error);
     });
 };
-
+// geeting a person by id
 export const getPersonByID = (id) => {
   const Person = Parse.Object.extend("people");
   const query = new Parse.Query(Person);
@@ -34,7 +34,7 @@ export const getPersonByID = (id) => {
       console.log("Error getting person:", error);
     });
 };
-
+// deleting person
 export const deletePerson = (id) => {
   const Person = Parse.Object.extend("people");
   const query = new Parse.Query(Person);
@@ -52,7 +52,7 @@ export const deletePerson = (id) => {
       console.log("Error deleting person:", error);
     });
 };
-
+//getting all peeps
 export const getAllPeople = () => {
   const Person = Parse.Object.extend("people");
   const query = new Parse.Query(Person);

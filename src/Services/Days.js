@@ -1,5 +1,5 @@
 import Parse from "parse";
-
+//creating a new day
 export let Days = {};
 Days.collection = [];
 
@@ -19,7 +19,7 @@ export const createDay = (Name) => {
       console.log("Error creating day:", error);
     });
 };
-
+//getting user by ID
 export const getByID = (id) => {
   const Day = Parse.Object.extend("day");
   const query = new Parse.Query(Day);
@@ -34,7 +34,7 @@ export const getByID = (id) => {
       console.log("Error getting day:", error);
     });
 };
-
+//delete day
 export const deleteDay = (id) => {
   const Day = Parse.Object.extend("day");
   const query = new Parse.Query(Day);
@@ -52,7 +52,7 @@ export const deleteDay = (id) => {
       console.log("Error deleting day:", error);
     });
 };
-
+//getting all days
 export const getAllDays = () => {
   const Day = Parse.Object.extend("day");
   const query = new Parse.Query(Day);
