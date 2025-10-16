@@ -6,11 +6,11 @@ import DailyInfo from "./DailyInfo.js";
 import InputDailyExcercise from "./InputDailyExcercise.js";
 import DailyCurr from "./DailyCurr.js";
 
-// JS loading in specific user (Jane here)
 export default function Daily({ currentUser }) {
   const [user, setUser] = useState({});
   const { username } = useParams();
 
+// removed loading data with axios service to prepare for actual endpoint one.
 
   const handleCaloriesSubmit = (calories) => {
     console.log("Submitted calories:", calories);
