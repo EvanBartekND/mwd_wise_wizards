@@ -1,13 +1,11 @@
 import React from "react";
-import * as Env from "./environments";
-import Parse from "parse";
 
-Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
-Parse.serverURL = Env.SERVER_URL;
+import Components from "./Components/Components"
 
-function App() {
-  return (<h1 > heelo </h1>);
+export default function App() {
+  return (
+    <Components/>
+  );
 }
 
 
-export default App;
