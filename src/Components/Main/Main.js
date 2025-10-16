@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "../User/Login";
-import Signup from "../User/Signup";
+import Login from "./Login";
+import Signup from "./Signup";
 
 export default function Main({ currentUser, setCurrentUser }) {
 
