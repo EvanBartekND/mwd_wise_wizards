@@ -27,7 +27,7 @@ export default function Log({ username }) {
       <h2>All People:</h2>
       <ul>
         {people.map((person) => (
-          <li key={person.id}>{person.get("name")}</li>
+          <li key={person.id}>{person.get("username")}</li>
         ))}
       </ul>
     </div>
