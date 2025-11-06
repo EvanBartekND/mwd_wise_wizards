@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { getAllDays, Days } from "../../Services/Days"; 
+import { getAllPeople, People } from "../../Services/People";
 
-export default function Log ({username}) {
-  const [days, setDays] = useState([]);
+export default function Log({ username }) {
+  const [people, setPeople] = useState([]);
 
-  // UseEffect to run when the page loads to
-  // obtain async data and render
+  // Run on mount: get people data (cached if available)
   useEffect(() => {
-    if (Days.collection.length) {
-      setDays(Days.collection);
+    if (People.collection.length) {
+      setPeople(People.collection);
     } else {
-      getAllDays().then((days) => {
-        console.log(days);
-        setDays(days || []);      });
+      getAllPeople().then((people) => {
+        console.log(people);
+        setPeople(people || []);
+      });
     }
   }, []);
 
   return (
     <div>
-      <h1>Logging Page</h1>
+      <h1>People Logging Page</h1>
       <h2>Click what you want to log</h2>
       <button>calories</button>
       <button>cardio</button>
       <button>lifting</button>
 
-      <h2>All Days:</h2>
+      <h2>All People:</h2>
       <ul>
-        {days.map((day) => (
-          <li key={day.id}>{day.get("username")}</li>
+        {people.map((person) => (
+          <li key={person.id}>{person.get("username")}</li>
         ))}
       </ul>
     </div>
   );
-};
+}
+
