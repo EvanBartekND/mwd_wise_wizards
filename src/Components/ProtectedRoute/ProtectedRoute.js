@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // This component wraps protected routes that require authentication.
 export default function ProtectedRoute({ element: Component, currentUser, ...rest }) {
