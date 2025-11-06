@@ -1,8 +1,15 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-// alr, I made this to wrap routes so that if there is no user in the url, it redirects to login/create.
-export default function ProtectedRoute({ currentUser, children }) {
+// This component wraps protected routes that require authentication.
+export default function ProtectedRoute({ element: Component, currentUser, ...rest }) {
+  const navigate = useNavigate();
+
+  const goBackHandler = () => {
+    navigate(-1);
+  };
+
+  // If not logged in, show unauthorized message
   if (!currentUser) {
     return (
       <div>
@@ -15,4 +22,5 @@ export default function ProtectedRoute({ currentUser, children }) {
   // If logged in, render the component
   return <Component {...rest} currentUser={currentUser} />;
 }
+
 

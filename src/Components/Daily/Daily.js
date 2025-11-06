@@ -9,8 +9,6 @@ export default function Daily({ currentUser }) {
   const [user, setUser] = useState({});
   const { username } = useParams();
 
-// removed loading data with axios service to prepare for actual endpoint one.
-
   const handleCaloriesSubmit = (calories) => {
     console.log("Submitted calories:", calories);
     setUser((prevUser) => ({
@@ -35,5 +33,6 @@ export default function Daily({ currentUser }) {
     </>
   );
 }
+
 
 

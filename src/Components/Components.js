@@ -13,18 +13,19 @@ export default function Components() {
 
   return (
     <Router>
-        {/* Navbar goes outside the Routing as it should be permenatly displayed */}
+      {/* Navbar displayed persistently */}
       <Navbar currentUser={currentUser} />
 
       <div>
         <Routes>
-            <Route
-                path="/"
-                element={<Main currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-            />
-            {/* All routes except hom are a protectedRoute as the require a user to display data correctly. */}
-            {/* Passing username w/ dynamic routing YAY */}
-            <Route
+          {/* Public route: home/login */}
+          <Route
+            path="/"
+            element={<Main currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+          />
+
+          {/* Protected routes use our new element-based ProtectedRoute */}
+          <Route
             path="/daily/:username"
             element={
               <ProtectedRoute element={Daily} currentUser={currentUser} />
