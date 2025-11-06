@@ -1,6 +1,35 @@
 
 # Change Log
 All notable changes to this project will be documented in this file.
+
+## [Feature 5] - 2025-10-17
+ 
+Initialization of project for feature 4
+
+### Added
+- [Auth Module]
+  component that contains login and register 
+- [Auth Service]
+  has createlogin, logout, get and update 
+
+
+### Changed
+ - [Protected Routes]
+   added protected routes so users cannot go to pages that are not meant to be public or access other user data
+-  [componets ]
+   redirecting to where they are supposed to 
+-  [Main ]
+  
+
+
+### Fixed
+  - [added comments]
+
+### Deleted 
+- Auth and register, made new ones 
+
+
+
   
 ## [Feature 4] - 2025-10-17
  
