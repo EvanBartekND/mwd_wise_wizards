@@ -1,10 +1,9 @@
-// Daily parent comp
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import DailyTitle from "./DailyTitle.js";
-import DailyInfo from "./DailyInfo.js";
-import InputDailyExcercise from "./InputDailyExcercise.js";
-import DailyCurr from "./DailyCurr.js";
+import DailyTitle from "./DailyTitle";
+import DailyInfo from "./DailyInfo";
+import InputDailyExcercise from "./InputDailyExcercise";
+import DailyCurr from "./DailyCurr";
 
 export default function Daily({ currentUser }) {
   const [user, setUser] = useState({});
@@ -23,11 +22,18 @@ export default function Daily({ currentUser }) {
   return (
     <>
       <h1>Daily Goals for {username}</h1>
-      <DailyCurr user={user} />
-      <DailyTitle onSubmit={handleCaloriesSubmit} />
-      <DailyInfo />
-      <InputDailyExcercise />
+      {currentUser ? (
+        <>
+          <DailyCurr user={user} />
+          <DailyTitle onSubmit={handleCaloriesSubmit} />
+          <DailyInfo />
+          <InputDailyExcercise />
+        </>
+      ) : (
+        <p>Please log in to view your daily goals.</p>
+      )}
     </>
   );
-};
+}
+
 
