@@ -1,9 +1,25 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function ProtectedRoute({ currentUser, children }) {
+// This component wraps protected routes that require authentication.
+export default function ProtectedRoute({ element: Component, currentUser, ...rest }) {
+  const navigate = useNavigate();
+
+  const goBackHandler = () => {
+    navigate(-1);
+  };
+
+  // If not logged in, show unauthorized message
   if (!currentUser) {
-    return <Navigate to="/" replace />; 
+    return (
+      <div>
+        <p>Unauthorized! Please log in to continue.</p>
+        <button onClick={goBackHandler}>Go Back</button>
+      </div>
+    );
   }
-  return children;
+
+  // If logged in, render the component
+  return <Component {...rest} currentUser={currentUser} />;
 }
+
