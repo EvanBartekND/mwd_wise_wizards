@@ -18,50 +18,32 @@ export default function Components() {
 
   return (
     <Router>
+      {/* Show Navbar only if logged in */}
       {currentUser && <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />}
 
       <div>
         <Routes>
-          {/* Default route redirects to auth or main */}
-          <Route
-            path="/"
-            element={
-              currentUser ? (
-                <Navigate to="/main" replace />
-              ) : (
-                <Navigate to="/auth" replace />
-              )
-            }
-          />
+          {/* Default route: redirect based on login status */}
+          <Route path="/" element={<Navigate to={currentUser ? "/main" : "/auth"} replace />} />
 
-          {/* Auth module */}
-          <Route path="/auth/*" element={<AuthModule setCurrentUser={setCurrentUser} />} />
+          {/* Auth module handles its own redirect if user is logged in */}
+          <Route
+            path="/auth/*"
+            element={<AuthModule setCurrentUser={setCurrentUser} currentUser={currentUser} />}
+          />
 
           {/* Main page */}
           <Route
             path="/main"
             element={
-              currentUser ? (
-                <Main currentUser={currentUser} />
-              ) : (
-                <Navigate to="/auth" replace />
-              )
+              currentUser ? <Main currentUser={currentUser} /> : <Navigate to="/auth" replace />
             }
           />
 
           {/* Protected routes */}
-          <Route
-            path="/daily/:username"
-            element={<ProtectedRoute element={Daily} currentUser={currentUser} />}
-          />
-          <Route
-            path="/log/:username"
-            element={<ProtectedRoute element={Log} currentUser={currentUser} />}
-          />
-          <Route
-            path="/trends/:username"
-            element={<ProtectedRoute element={Trends} currentUser={currentUser} />}
-          />
+          <Route path="/daily" element={<ProtectedRoute element={Daily} currentUser={currentUser} />} />
+          <Route path="/log" element={<ProtectedRoute element={Log} currentUser={currentUser} />} />
+          <Route path="/trends" element={<ProtectedRoute element={Trends} currentUser={currentUser} />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

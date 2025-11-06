@@ -20,11 +20,11 @@ export default function Navbar({ currentUser, setCurrentUser }) {
         {currentUser ? (
           <>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <NavLink to={`/daily/${currentUser.get("username")}`}>Daily</NavLink>
+            <NavLink to="/daily">Daily</NavLink>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <NavLink to={`/log/${currentUser.get("username")}`}>Log</NavLink>
+            <NavLink to="/log">Log</NavLink>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <NavLink to={`/trends/${currentUser.get("username")}`}>Trends</NavLink>
+            <NavLink to="/trends">Trends</NavLink>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span>Welcome, {currentUser.get("username")}!</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
