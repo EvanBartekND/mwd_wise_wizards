@@ -18,26 +18,26 @@ export default function Components() {
 
   return (
     <Router>
-      {/* Show Navbar only if logged in */}
       {currentUser && <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />}
 
       <div>
         <Routes>
-          {/* Default route: redirect based on login status */}
-          <Route path="/" element={<Navigate to={currentUser ? "/main" : "/auth"} replace />} />
-
-          {/* Auth module handles its own redirect if user is logged in */}
+          {/* Default route */}
           <Route
-            path="/auth/*"
-            element={<AuthModule setCurrentUser={setCurrentUser} currentUser={currentUser} />}
+            path="/"
+            element={<Navigate to={currentUser ? "/main" : "/auth"} replace />}
           />
 
-          {/* Main page */}
+          {/* Auth module */}
+          <Route
+            path="/auth/*"
+            element={currentUser ? <Navigate to="/main" replace /> : <AuthModule setCurrentUser={setCurrentUser} />}
+          />
+
+          {/* Main */}
           <Route
             path="/main"
-            element={
-              currentUser ? <Main currentUser={currentUser} /> : <Navigate to="/auth" replace />
-            }
+            element={currentUser ? <Main currentUser={currentUser} /> : <Navigate to="/auth" replace />}
           />
 
           {/* Protected routes */}

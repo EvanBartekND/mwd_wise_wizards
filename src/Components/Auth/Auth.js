@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
 import AuthLogin from "./AuthLogin.js";
 import AuthRegister from "./AuthRegister.js";
 
-const AuthModule = ({ currentUser, setCurrentUser }) => {
+const AuthModule = ({ setCurrentUser }) => {
   const [mode, setMode] = useState("login");
 
-  if (currentUser) {
-    return <Navigate to="/main" />;
-  }
-  else{
   return (
     <div>
       <h2>Welcome! Please log in or register</h2>
@@ -33,8 +28,6 @@ const AuthModule = ({ currentUser, setCurrentUser }) => {
       </div>
     </div>
   );
-
-  }
 };
 
 export default AuthModule;
