@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Main from "./Main/Main";
@@ -6,50 +6,49 @@ import Daily from "./Daily/Daily";
 import Log from "./Log/Log";
 import Trends from "./Trends/Trends";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import AuthModule from "./Auth/Auth.js";
+import { getCurrentUser } from "../Services/AuthService";
 
 export default function Components() {
-  // store the currently logged in user
   const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser());
+  }, []);
 
   return (
     <Router>
-      {/* Navbar displayed persistently */}
-      <Navbar currentUser={currentUser} />
+      {currentUser && <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />}
 
       <div>
         <Routes>
-          {/* Public route: home/login */}
+          {/* Default route */}
           <Route
             path="/"
-            element={<Main currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            element={<Navigate to={currentUser ? "/main" : "/auth"} replace />}
           />
 
-          {/* Protected routes use our new element-based ProtectedRoute */}
+          {/* Auth module */}
           <Route
-            path="/daily/:username"
-            element={
-              <ProtectedRoute element={Daily} currentUser={currentUser} />
-            }
-          />
-          <Route
-            path="/log/:username"
-            element={
-              <ProtectedRoute element={Log} currentUser={currentUser} />
-            }
-          />
-          <Route
-            path="/trends/:username"
-            element={
-              <ProtectedRoute element={Trends} currentUser={currentUser} />
-            }
+            path="/auth/*"
+            element={currentUser ? <Navigate to="/main" replace /> : <AuthModule setCurrentUser={setCurrentUser} />}
           />
 
-          {/* Redirect any unknown paths */}
+          {/* Main */}
+          <Route
+            path="/main"
+            element={currentUser ? <Main currentUser={currentUser} /> : <Navigate to="/auth" replace />}
+          />
+
+          {/* Protected routes */}
+          <Route path="/daily" element={<ProtectedRoute element={Daily} currentUser={currentUser} />} />
+          <Route path="/log" element={<ProtectedRoute element={Log} currentUser={currentUser} />} />
+          <Route path="/trends" element={<ProtectedRoute element={Trends} currentUser={currentUser} />} />
+
+          {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
-

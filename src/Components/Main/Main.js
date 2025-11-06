@@ -1,19 +1,13 @@
 import React from "react";
-import Login from "./Login";
-import Signup from "./Signup";
 
-export default function Main({ currentUser, setCurrentUser }) {
-
-  return(
+export default function Main({ currentUser }) {
+  return (
     <div>
-      {!currentUser ? (
-        <>
-          <Login setCurrentUser={setCurrentUser} />
-          <Signup setCurrentUser={setCurrentUser} />
-        </>
+      {currentUser ? (
+        <p>Welcome, {currentUser.get("username")}!</p>
       ) : (
-        <p>Welcome, {currentUser.userName}!</p>
+        <p>Loading...</p>
       )}
     </div>
-  )
-};
+  );
+}

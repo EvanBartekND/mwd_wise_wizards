@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllPeople, People } from "../../Services/People";
 
-export default function Log({ username }) {
+export default function Log({ currentUser }) {
   const [people, setPeople] = useState([]);
 
   // Run on mount: get people data (cached if available)
@@ -9,16 +9,20 @@ export default function Log({ username }) {
     if (People.collection.length) {
       setPeople(People.collection);
     } else {
-      getAllPeople().then((people) => {
-        console.log(people);
-        setPeople(people || []);
+      getAllPeople().then((peopleData) => {
+        console.log(peopleData);
+        setPeople(peopleData || []);
       });
     }
   }, []);
 
+  if (!currentUser) {
+    return <p>Please log in to view the log page.</p>;
+  }
+
   return (
     <div>
-      <h1>People Logging Page</h1>
+      <h1>{currentUser.get("username")}'s Logging Page</h1>
       <h2>Click what you want to log</h2>
       <button>calories</button>
       <button>cardio</button>
@@ -33,4 +37,3 @@ export default function Log({ username }) {
     </div>
   );
 }
-

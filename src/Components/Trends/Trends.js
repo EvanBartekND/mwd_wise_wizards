@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { getAllDays, Days } from "../../Services/Days";
 
-export default function Log ({username}) {
+export default function Log({ currentUser }) {
   const [days, setDays] = useState([]);
 
-  // UseEffect to run when the page loads to
-  // obtain async data and render
   useEffect(() => {
+    if (!currentUser) return; // don't load if no user
+
     if (Days.collection.length) {
       setDays(Days.collection);
     } else {
-      getAllDays().then((days) => {
-        console.log(days);
-        setDays(days || []);      });
+      getAllDays().then((fetchedDays) => {
+        console.log(fetchedDays);
+        setDays(fetchedDays || []);
+      });
     }
-  }, []);
+  }, [currentUser]);
+
+  if (!currentUser) {
+    return <p>Please log in to view your logging page.</p>;
+  }
 
   return (
     <div>
-      <h1>Logging Page</h1>
+      <h1>{currentUser.get("username")}'s Logging Page</h1>
       <h2>Click what you want to log</h2>
       <button>calories</button>
       <button>cardio</button>
@@ -32,5 +37,4 @@ export default function Log ({username}) {
       </ul>
     </div>
   );
-};
-
+}
