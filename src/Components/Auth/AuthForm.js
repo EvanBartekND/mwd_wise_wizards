@@ -1,5 +1,6 @@
 import React from "react";
 
+// hideUsername toggles if the username field is displayed
 const AuthForm = ({ user, onChange, onSubmit, hideUsername }) => {
   return (
     <div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AuthLogin from "./AuthLogin.js";
 import AuthRegister from "./AuthRegister.js";
 
+// wrapper for login/signup 
 const AuthModule = ({ setCurrentUser }) => {
   const [mode, setMode] = useState("login");
 

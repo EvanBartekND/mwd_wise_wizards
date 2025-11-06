@@ -29,18 +29,21 @@ export default function Components() {
           />
 
           {/* Auth module */}
+          {/* if logged in redirect to main */}
           <Route
             path="/auth/*"
             element={currentUser ? <Navigate to="/main" replace /> : <AuthModule setCurrentUser={setCurrentUser} />}
           />
 
           {/* Main */}
+          {/* if not logged in redirect to auth */}
           <Route
             path="/main"
             element={currentUser ? <Main currentUser={currentUser} /> : <Navigate to="/auth" replace />}
           />
 
           {/* Protected routes */}
+          {/* if not logged in redirect to auth */}
           <Route path="/daily" element={<ProtectedRoute element={Daily} currentUser={currentUser} />} />
           <Route path="/log" element={<ProtectedRoute element={Log} currentUser={currentUser} />} />
           <Route path="/trends" element={<ProtectedRoute element={Trends} currentUser={currentUser} />} />

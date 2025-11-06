@@ -57,7 +57,7 @@ export const getCurrentUser = () => {
   return currentUser;
 };
 
-// Update a user’s profile info
+// Update a user’s profile info (idk if this is a security risk or not)
 export const updateUser = async (updates) => {
   const user = Parse.User.current();
   if (!user) {
