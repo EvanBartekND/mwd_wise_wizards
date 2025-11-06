@@ -2,9 +2,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Feature 5] - 2025-10-17
+## [Feature 5] - 2025-11-06
  
-Initialization of project for feature 4
+ project for feature 5
 
 ### Added
 - [Auth Module]
