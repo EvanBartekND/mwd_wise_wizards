@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DailyTitle from "./DailyTitle";
+import "./Daily.css";
 import DailyInfo from "./DailyInfo";
 import InputDailyExcercise from "./InputDailyExcercise";
 import DailyCurr from "./DailyCurr";
@@ -16,16 +17,28 @@ export default function Daily({ currentUser }) {
   };
 
   if (!currentUser) {
-    return <p>Please log in to view your daily goals.</p>;
+    return <p className="daily-message">Please log in to view your daily goals.</p>;
   }
 
   return (
-    <>
-      <h1>Daily Goals for {currentUser.get("username")}</h1>
-      <DailyCurr user={user} />
-      <DailyTitle onSubmit={handleCaloriesSubmit} />
-      <DailyInfo />
-      <InputDailyExcercise />
-    </>
+    <div className="daily-container">
+      <h1 className="daily-header">Daily Goals for {currentUser.get("username")}</h1>
+
+      <div className="daily-card">
+        <DailyCurr user={user} />
+      </div>
+
+      <div className="daily-card">
+        <DailyTitle onSubmit={handleCaloriesSubmit} />
+      </div>
+
+      <div className="daily-card">
+        <DailyInfo />
+      </div>
+
+      <div className="daily-card">
+        <InputDailyExcercise />
+      </div>
+    </div>
   );
 }
