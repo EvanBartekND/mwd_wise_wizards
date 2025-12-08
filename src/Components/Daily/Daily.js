@@ -215,7 +215,7 @@ export default function Daily({ currentUser }) {
 
   // Not logged in
   if (!currentUser) {
-    return <p>Please log in to view your daily goals.</p>;
+    return <p className="daily-message">Please log in to view your daily goals.</p>;
   }
 
   // Render based on view mode
