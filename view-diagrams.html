@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database UML & Component Tree Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .note {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        nav {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#database">Database UML</a>
+        <a href="#component-tree">Component Tree</a>
+    </nav>
+
+    <div id="database" class="container">
+        <h1>📊 Database UML Diagram</h1>
+        
+        <h2>Full Class Diagram</h2>
+        <div class="mermaid">
+classDiagram
+    class _User {
+        <<Parse Built-in>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +String username
+        +String password
+        +String email
+        +Boolean emailVerified
+        +Object authData
+    }
+    
+    class _Session {
+        <<Parse Built-in>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +Pointer~_User~ user
+        +String installationId
+        +String sessionToken
+        +Date expiresAt
+        +Object createdWith
+    }
+    
+    class _Role {
+        <<Parse Built-in>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +String name
+        +Relation~_User~ users
+        +Relation~_Role~ roles
+    }
+    
+    class people {
+        <<Custom Class>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +String username
+        +String email
+        +Pointer~_User~ user
+        +Number height_cm
+        +Number weight_kg
+        +Number age_years
+        +Number bodyFat_percent
+        +String gender
+        +Number calorieGoal
+        +Number cardioGoal
+        +Number liftGoal
+        +String weightGoalType
+        +String weightGoalRate
+        +Boolean goalsSet
+        +Date goalsLastUpdated
+    }
+    
+    class DailyLogs {
+        <<Custom Class - Active>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +Pointer~_User~ user
+        +Date date
+        +Number trackedCalories
+        +Number trackedCardio
+        +Number trackedLift
+    }
+    
+    class day {
+        <<Custom Class - Deprecated>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +String date
+        +Pointer~_User~ user
+        +String username
+        +String trackedcalories
+        +String trackedcardio
+        +String trackedlift
+        +Number trackedCalories
+        +Number trackedCardio
+        +Number trackedLift
+    }
+    
+    class Logs {
+        <<Custom Class - Deprecated>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +Pointer~_User~ user
+        +Date date
+        +String type
+        +String exerciseType
+        +Number duration
+        +String notes
+        +String food
+        +Number calories
+    }
+    
+    class FoodLogs {
+        <<Custom Class - Deprecated>>
+        +String objectId
+        +Date createdAt
+        +Date updatedAt
+        +ACL ACL
+        +Pointer~_User~ user
+        +Date date
+        +String foodName
+        +Number calories
+    }
+    
+    _User ||--o{ _Session : "has"
+    _User ||--|| people : "profile"
+    _User ||--o{ DailyLogs : "logs"
+    _User ||--o{ day : "has (deprecated)"
+    _User ||--o{ Logs : "creates (deprecated)"
+    _User ||--o{ FoodLogs : "creates (deprecated)"
+        </div>
+
+        <h2>Simplified ER Diagram (Active Classes Only)</h2>
+        <div class="mermaid">
+erDiagram
+    _User ||--|| people : "has profile"
+    _User ||--o{ DailyLogs : "logs daily"
+    _User ||--o{ _Session : "has sessions"
+    
+    _User {
+        string objectId PK
+        date createdAt
+        date updatedAt
+        string username
+        string email
+        string password
+        boolean emailVerified
+    }
+    
+    people {
+        string objectId PK
+        pointer user FK
+        number height_cm
+        number weight_kg
+        number age_years
+        number bodyFat_percent
+        string gender
+        number calorieGoal
+        number cardioGoal
+        number liftGoal
+        string weightGoalType
+        string weightGoalRate
+        boolean goalsSet
+        date goalsLastUpdated
+    }
+    
+    DailyLogs {
+        string objectId PK
+        pointer user FK
+        date date
+        number trackedCalories
+        number trackedCardio
+        number trackedLift
+    }
+    
+    _Session {
+        string objectId PK
+        pointer user FK
+        string sessionToken
+        date expiresAt
+    }
+        </div>
+    </div>
+
+    <div id="component-tree" class="container">
+        <h1>🌳 Component Tree Diagram</h1>
+        
+        <h2>Detailed Component Hierarchy</h2>
+        <div class="mermaid">
+graph TD
+    A[App] --> B[Components Router]
+    B --> C[Navbar]
+    C --> C1[NavLink: Daily]
+    C --> C2[NavLink: Log]
+    C --> C3[NavLink: Trends]
+    
+    B --> D[Routes]
+    D --> E["/ Route<br/>Navigate"]
+    D --> F["/auth/* Route"]
+    D --> L["/main Route"]
+    D --> N["/daily Route"]
+    D --> Q["/log Route"]
+    D --> T["/trends Route"]
+    
+    F --> G[AuthModule]
+    G --> H[AuthLogin]
+    G --> I[AuthRegister]
+    H --> J[AuthForm]
+    I --> J
+    
+    L --> M[Main]
+    
+    N --> O[ProtectedRoute]
+    O --> P[Daily]
+    P --> P1["BodyDataForm<br/>(viewMode: bodyData)"]
+    P --> P2["GoalPrompt<br/>(viewMode: goalPrompt)"]
+    P --> P3["DailyGoalsDisplay<br/>(viewMode: display)"]
+    P --> P4["CalorieCalculator<br/>(viewMode: calculate)"]
+    P --> P5["DailyGoalsForm<br/>(viewMode: manual)"]
+    
+    P1 --> P1a[BodyDataInput x5]
+    P2 --> P2a[GoalPromptOption x2]
+    P3 --> P3a[GoalCard x3]
+    P3a --> P3a1[GoalInput]
+    P4 --> P4a[BodyDataForm]
+    P4 --> P4b[CalculationPreview]
+    P5 --> P5a[GoalInput x3]
+    
+    Q --> R[ProtectedRoute]
+    R --> S[Log]
+    S --> S2["FoodLog<br/>(view: food)"]
+    S --> S3["ExerciseLog<br/>(view: exercise)"]
+    S --> S4[Today's Summary]
+    S4 --> S4a[Stat Cards x3]
+    
+    T --> U[ProtectedRoute]
+    U --> V[Trends]
+    V --> V2[WeekSelector]
+    V --> V3[WeeklyDashboard]
+    V --> V4[WeekDisplay]
+    V --> V5["DayDetailModal<br/>(conditional)"]
+    
+    V3 --> V3a[StatCard x4]
+    V3 --> V3e[ProgressBar x3]
+    V4 --> V4a[DayCard x7]
+    V4a --> V4a1[MiniChart]
+    V5 --> V5a[Statistics Grid]
+    V5 --> V5b[ProgressBar x3]
+    
+    style A fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
+    style B fill:#c3e6ff,stroke:#0066cc,stroke-width:2px
+    style P fill:#fff4e6,stroke:#ff9900,stroke-width:2px
+    style S fill:#fff4e6,stroke:#ff9900,stroke-width:2px
+    style V fill:#fff4e6,stroke:#ff9900,stroke-width:2px
+    style G fill:#ffe6f2,stroke:#cc0066,stroke-width:2px
+    style O fill:#e6ffe6,stroke:#00cc00,stroke-width:2px
+    style R fill:#e6ffe6,stroke:#00cc00,stroke-width:2px
+    style U fill:#e6ffe6,stroke:#00cc00,stroke-width:2px
+        </div>
+
+        <h2>Simplified High-Level View</h2>
+        <div class="mermaid">
+graph LR
+    A[App] --> B[Components Router]
+    B --> C[Navbar]
+    B --> D[Routes]
+    
+    D --> E["/auth/*<br/>AuthModule"]
+    D --> F["/main<br/>Main"]
+    D --> G["/daily<br/>ProtectedRoute → Daily"]
+    D --> H["/log<br/>ProtectedRoute → Log"]
+    D --> I["/trends<br/>ProtectedRoute → Trends"]
+    
+    E --> E1[AuthLogin/Register]
+    E1 --> E2[AuthForm]
+    
+    G --> G1[BodyDataForm]
+    G --> G2[GoalPrompt]
+    G --> G3[DailyGoalsDisplay]
+    G --> G4[CalorieCalculator]
+    G --> G5[DailyGoalsForm]
+    
+    H --> H1[FoodLog]
+    H --> H2[ExerciseLog]
+    
+    I --> I1[WeekSelector]
+    I --> I2[WeeklyDashboard]
+    I --> I3[WeekDisplay]
+    I --> I4[DayDetailModal]
+    
+    style A fill:#e1f5ff
+    style B fill:#c3e6ff
+    style E fill:#ffe6f2
+    style G fill:#fff4e6
+    style H fill:#fff4e6
+    style I fill:#fff4e6
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>💡 Tip:</strong> You can zoom and pan these diagrams. Use your mouse wheel to zoom, and click and drag to pan around larger diagrams.
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            er: {
+                fontSize: 12
+            }
+        });
+    </script>
+</body>
+</html>
