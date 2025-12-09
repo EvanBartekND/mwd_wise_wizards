@@ -15,9 +15,33 @@ export default function Navbar({ currentUser, setCurrentUser }) {
     }
   };
 
+  const handleLogoClick = () => {
+    if (currentUser) {
+      navigate("/main");
+    }
+  };
+
   return (
     <nav>
-      <h1>Wise Wizards Fitness</h1>
+      <h1 
+        onClick={handleLogoClick}
+        style={{
+          cursor: currentUser ? "pointer" : "default",
+          transition: "opacity 0.2s ease"
+        }}
+        onMouseEnter={(e) => {
+          if (currentUser) {
+            e.currentTarget.style.opacity = "0.8";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (currentUser) {
+            e.currentTarget.style.opacity = "1";
+          }
+        }}
+      >
+        Wise Wizards Fitness
+      </h1>
       <div>
         {currentUser ? (
           <>
