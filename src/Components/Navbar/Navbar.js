@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../Services/AuthService.js";
+import "./Navbar.css";
+
 
 export default function Navbar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate();

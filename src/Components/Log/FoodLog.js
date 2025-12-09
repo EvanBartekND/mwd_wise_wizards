@@ -35,6 +35,7 @@ export default function FoodLog({ currentUser, onLogSaved }) {
   const [calories, setCalories] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [manualCalorieEntry, setManualCalorieEntry] = useState(false);
 
   const handleSearch = async (e) => {
     const query = e.target.value;
@@ -58,28 +59,33 @@ export default function FoodLog({ currentUser, onLogSaved }) {
   const selectFood = async (item) => {
     setFoodName(item.description);
     setSearchResults([]);
+    setCalories("");
+    setManualCalorieEntry(false);
 
     try {
       const details = await getFoodDetails(item.fdcId);
 
       console.log("Food Nutrients:", details.foodNutrients);
 
+      // Find calorie nutrient (number 208, unit kcal)
       const energy = details.foodNutrients?.find((n) => {
-        const name = n.nutrientName?.toLowerCase();
-        const unit = n.unitName?.toLowerCase();
-        return (
-          (name === "energy" ||
-            name === "energy (atwater general factors)" ||
-            n.nutrientNumber === "208" ||
-            n.nutrientId === 1008) &&
-          unit === "kcal"
-        );
+        const nutrientNumber = n.number?.toString() || n.nutrientNumber?.toString() || "";
+        const unitName = (n.unitName || "").toLowerCase();
+
+        return nutrientNumber === "208" && (unitName === "kcal" || unitName === "kcal");
       });
 
-      setCalories(energy ? energy.value.toString() : "");
+      if (energy && energy.amount) {
+        setCalories(energy.amount.toString());
+        setManualCalorieEntry(false);
+      } else {
+        setCalories("");
+        setManualCalorieEntry(true);
+      }
     } catch (err) {
       console.error("Failed to get food details", err);
       setCalories("");
+      setManualCalorieEntry(true);
     }
   };
 
@@ -104,6 +110,7 @@ export default function FoodLog({ currentUser, onLogSaved }) {
       setFoodName("");
       setCalories("");
       setSearchResults([]);
+      setManualCalorieEntry(false);
 
       if (onLogSaved) onLogSaved();
     } catch (err) {
@@ -148,10 +155,15 @@ export default function FoodLog({ currentUser, onLogSaved }) {
         type="number"
         value={calories}
         onChange={(e) => setCalories(e.target.value)}
+        disabled={!manualCalorieEntry ? true : false}
       />
+      {manualCalorieEntry && <p>Please enter calories manually.</p>}
 
       <button onClick={saveFoodLog}>Add Food</button>
     </div>
   );
 }
+
+
+
 
