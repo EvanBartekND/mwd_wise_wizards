@@ -1,0 +1,57 @@
+nav {
+  background-color: #0077cc; /* A nice blue */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+nav h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+
+nav div {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Spacing between elements */
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  transition: background-color 0.25s ease;
+}
+
+nav a:hover,
+nav a.active {
+  background-color: #005fa3; /* Darker blue on hover or active */
+}
+
+nav span {
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+button {
+  background-color: #004d80;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003359;
+}
