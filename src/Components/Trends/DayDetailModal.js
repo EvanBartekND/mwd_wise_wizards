@@ -1,6 +1,7 @@
 import React from "react";
 import { formatDateDisplay, getDayName } from "../../Utils/dateUtils";
 import ProgressBar from "./ProgressBar";
+import { STAT_COLORS } from "../../Utils/colors";
 
 /**
  * Day detail modal component
@@ -89,19 +90,19 @@ const DayDetailModal = ({ dayData, date, goals, onClose }) => {
             >
               <div style={{ textAlign: "center", padding: "1rem", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
                 <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "0.5rem" }}>Calories</div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#007bff" }}>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: STAT_COLORS.CALORIES }}>
                   {calories?.toLocaleString() || "—"}
                 </div>
               </div>
               <div style={{ textAlign: "center", padding: "1rem", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
                 <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "0.5rem" }}>Cardio</div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#28a745" }}>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: STAT_COLORS.CARDIO }}>
                   {cardio || "—"} <span style={{ fontSize: "1rem" }}>min</span>
                 </div>
               </div>
               <div style={{ textAlign: "center", padding: "1rem", backgroundColor: "#f8f9fa", borderRadius: "8px" }}>
                 <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "0.5rem" }}>Lifting</div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#dc3545" }}>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: STAT_COLORS.LIFTING }}>
                   {lift || "—"} <span style={{ fontSize: "1rem" }}>min</span>
                 </div>
               </div>

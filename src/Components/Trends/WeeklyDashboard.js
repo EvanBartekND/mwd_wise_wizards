@@ -1,6 +1,7 @@
 import React from "react";
 import StatCard from "./StatCard";
 import ProgressBar from "./ProgressBar";
+import { STAT_COLORS } from "../../Utils/colors";
 
 /**
  * Weekly dashboard component showing aggregated statistics
@@ -34,21 +35,21 @@ const WeeklyDashboard = ({ aggregates, goals }) => {
           value={aggregates.avgCalories || 0}
           unit="cal"
           subtitle={`Total: ${aggregates.totalCalories?.toLocaleString() || 0} cal`}
-          color="#007bff"
+          color={STAT_COLORS.CALORIES}
         />
         <StatCard
           title="Average Cardio"
           value={aggregates.avgCardio || 0}
           unit="min"
           subtitle={`Total: ${aggregates.totalCardio || 0} min`}
-          color="#28a745"
+          color={STAT_COLORS.CARDIO}
         />
         <StatCard
           title="Average Lifting"
           value={aggregates.avgLift || 0}
           unit="min"
           subtitle={`Total: ${aggregates.totalLift || 0} min`}
-          color="#dc3545"
+          color={STAT_COLORS.LIFTING}
         />
         <StatCard
           title="Days Logged"

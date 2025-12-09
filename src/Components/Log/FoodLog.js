@@ -112,46 +112,142 @@ export default function FoodLog({ currentUser, onLogSubmitted }) {
   };
 
   return (
-    <div className="log-box">
-      <h2>Log Food</h2>
+    <div
+      style={{
+        backgroundColor: "white",
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+        padding: "2rem",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+      }}
+    >
+      <h2 style={{ marginTop: 0, marginBottom: "1.5rem" }}>Log Food</h2>
 
-      <input
-        placeholder="Search food..."
-        value={foodName}
-        onChange={handleSearch}
-        autoComplete="off"
-      />
+      <div style={{ marginBottom: "1rem" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "0.5rem",
+            fontSize: "0.9rem",
+            fontWeight: "500",
+            color: "#333"
+          }}
+        >
+          Search for Food
+        </label>
+        <input
+          placeholder="Search food..."
+          value={foodName}
+          onChange={handleSearch}
+          autoComplete="off"
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            fontSize: "1rem",
+            boxSizing: "border-box"
+          }}
+        />
+      </div>
 
-      {loading && <p>Searching...</p>}
+      {loading && (
+        <p style={{ color: "#666", fontSize: "0.9rem", marginTop: "-0.5rem", marginBottom: "1rem" }}>
+          Searching...
+        </p>
+      )}
 
       {searchResults.length > 0 && (
-        <ul className="search-results">
+        <div
+          style={{
+            marginBottom: "1rem",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            maxHeight: "200px",
+            overflowY: "auto",
+            backgroundColor: "white"
+          }}
+        >
           {searchResults.map((item) => (
-            <li
+            <div
               key={item.fdcId}
               onClick={() => selectFood(item)}
               style={{
                 cursor: "pointer",
-                padding: "8px",
+                padding: "0.75rem",
                 borderBottom: "1px solid #eee",
+                transition: "background-color 0.2s"
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f8f9fa")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
             >
               {item.description}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
-      <input
-        placeholder="Calories"
-        type="number"
-        value={calories}
-        onChange={(e) => setCalories(e.target.value)}
-        disabled={!manualCalorieEntry ? true : false}
-      />
-      {manualCalorieEntry && <p>Please enter calories manually.</p>}
+      <div style={{ marginBottom: "1rem" }}>
+        <label
+          style={{
+            display: "block",
+            marginBottom: "0.5rem",
+            fontSize: "0.9rem",
+            fontWeight: "500",
+            color: "#333"
+          }}
+        >
+          Calories
+        </label>
+        <input
+          placeholder="Calories"
+          type="number"
+          value={calories}
+          onChange={(e) => setCalories(e.target.value)}
+          disabled={!manualCalorieEntry}
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            fontSize: "1rem",
+            boxSizing: "border-box",
+            backgroundColor: manualCalorieEntry ? "white" : "#f8f9fa",
+            cursor: manualCalorieEntry ? "text" : "not-allowed"
+          }}
+        />
+        {manualCalorieEntry && (
+          <p style={{ color: "#666", fontSize: "0.85rem", marginTop: "0.25rem", marginBottom: 0 }}>
+            Please enter calories manually.
+          </p>
+        )}
+      </div>
 
-      <button onClick={saveFoodLog}>Add Food</button>
+      <button
+        onClick={saveFoodLog}
+        style={{
+          padding: "0.75rem 1.5rem",
+          backgroundColor: "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "1rem",
+          fontWeight: "500",
+          width: "100%",
+          transition: "all 0.2s ease"
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.opacity = "0.9";
+          e.currentTarget.style.transform = "translateY(-1px)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = "1";
+          e.currentTarget.style.transform = "translateY(0)";
+        }}
+      >
+        Add Food
+      </button>
     </div>
   );
 }
