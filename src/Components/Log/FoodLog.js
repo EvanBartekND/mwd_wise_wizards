@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Parse from "parse";
+import { createFoodLog } from "../../Services/Logs";
 
 const API_KEY = "5ccp4E8Y19irErPjmCowx7Mav4xcOvc3rzScgMWQ"; // Your USDA API key
 
@@ -30,7 +30,7 @@ async function getFoodDetails(fdcId) {
   return response.json();
 }
 
-export default function FoodLog({ currentUser, onLogSaved }) {
+export default function FoodLog({ currentUser, onLogSubmitted }) {
   const [foodName, setFoodName] = useState("");
   const [calories, setCalories] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -90,22 +90,14 @@ export default function FoodLog({ currentUser, onLogSaved }) {
     }
 
     try {
-      const FoodLog = Parse.Object.extend("FoodLogs");
-      const log = new FoodLog();
-
-      log.set("user", currentUser);
-      log.set("foodName", foodName);
-      log.set("calories", Number(calories));
-      log.set("date", new Date());
-
-      await log.save();
+      await createFoodLog(currentUser, foodName, calories);
 
       alert("Food logged!");
       setFoodName("");
       setCalories("");
       setSearchResults([]);
 
-      if (onLogSaved) onLogSaved();
+      if (onLogSubmitted) onLogSubmitted();
     } catch (err) {
       console.error("Error saving food log:", err);
       alert("Failed to save food log");

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { getUserDaysForWeek, getWeeklyAggregates } from "../../Services/Days";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { getUserDaysForWeek, getWeeklyAggregates } from "../../Services/Logs";
 import { getUserProfile } from "../../Services/People";
 import { getCurrentWeekStart } from "../../Utils/dateUtils";
 import WeeklyDashboard from "./WeeklyDashboard";
@@ -15,20 +15,16 @@ export default function Trends({ currentUser }) {
   const [selectedDay, setSelectedDay] = useState(null); // { date, dayData }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const hasLoadedRef = useRef(false);
 
-  // Load data on mount and when week changes
-  useEffect(() => {
-    if (!currentUser) {
-      setLoading(false);
-      return;
-    }
-
-    loadTrendsData();
-  }, [currentUser, selectedWeekStart]);
-
-  const loadTrendsData = async () => {
+  const loadTrendsData = useCallback(async (isRefresh = false) => {
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
       setError(null);
 
       // Load user goals
@@ -41,8 +37,8 @@ export default function Trends({ currentUser }) {
 
       // Load week days and aggregates
       const [days, aggregates] = await Promise.all([
-        getUserDaysForWeek(selectedWeekStart),
-        getWeeklyAggregates(selectedWeekStart, {
+        getUserDaysForWeek(currentUser, selectedWeekStart),
+        getWeeklyAggregates(currentUser, selectedWeekStart, {
           calorieGoal: profile.calorieGoal,
           cardioGoal: profile.cardioGoal,
           liftGoal: profile.liftGoal
@@ -51,12 +47,51 @@ export default function Trends({ currentUser }) {
 
       setWeekDays(days);
       setWeeklyAggregates(aggregates);
+      hasLoadedRef.current = true;
     } catch (err) {
       console.error("Error loading trends data:", err);
       setError("Failed to load trends data. Please try again.");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  }, [currentUser, selectedWeekStart]);
+
+  // Load data on mount and when week changes
+  useEffect(() => {
+    if (!currentUser) {
+      setLoading(false);
+      return;
+    }
+
+    loadTrendsData();
+  }, [currentUser, selectedWeekStart, loadTrendsData]);
+
+  // Refresh data when component becomes visible (e.g., navigating back to trends page)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && hasLoadedRef.current && currentUser) {
+        loadTrendsData(true);
+      }
+    };
+
+    const handleFocus = () => {
+      if (hasLoadedRef.current && currentUser) {
+        loadTrendsData(true);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [currentUser, loadTrendsData]);
+
+  const handleRefresh = () => {
+    loadTrendsData(true);
   };
 
   const handleWeekChange = (newWeekStart) => {
@@ -110,7 +145,27 @@ export default function Trends({ currentUser }) {
 
   return (
     <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1>Trends for {currentUser.get("username")}</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+        <h1 style={{ margin: 0 }}>Trends for {currentUser.get("username")}</h1>
+        <button
+          onClick={handleRefresh}
+          disabled={refreshing}
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor: refreshing ? "#ccc" : "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: refreshing ? "not-allowed" : "pointer",
+            fontSize: "0.9rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem"
+          }}
+        >
+          <span>{refreshing ? "Refreshing..." : "🔄 Refresh"}</span>
+        </button>
+      </div>
 
       {/* Week Selector */}
       <WeekSelector

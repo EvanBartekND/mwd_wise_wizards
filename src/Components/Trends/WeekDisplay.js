@@ -1,7 +1,7 @@
 import React from "react";
 import DayCard from "./DayCard";
 import { getWeekDates } from "../../Utils/dateUtils";
-import { extractDayData } from "../../Services/Days";
+import { extractDayData } from "../../Services/Logs";
 
 /**
  * Week display component showing 7 day cards
@@ -13,12 +13,9 @@ import { extractDayData } from "../../Services/Days";
 const WeekDisplay = ({ weekDays, weekStart, goals, onDayClick }) => {
   const weekDates = getWeekDates(weekStart);
 
-  // Extract day data from Parse objects
+  // Extract day data (already in correct format, but extractDayData handles null checks)
   const daysData = weekDays.map((day, index) => {
-    if (day) {
-      return extractDayData(day);
-    }
-    return null;
+    return extractDayData(day);
   });
 
   return (

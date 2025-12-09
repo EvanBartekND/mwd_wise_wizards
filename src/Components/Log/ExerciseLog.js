@@ -1,6 +1,6 @@
 // src/components/Logging/ExerciseLog.js
 import React, { useState } from "react";
-import Parse from "parse";
+import { createExerciseLog } from "../../Services/Logs";
 
 export default function ExerciseLog({ currentUser, onLogSubmitted }) {
   const [exerciseType, setExerciseType] = useState("cardio");
@@ -11,17 +11,7 @@ export default function ExerciseLog({ currentUser, onLogSubmitted }) {
     e.preventDefault();
     if (!duration) return;
 
-    const Log = Parse.Object.extend("Logs");
-    const log = new Log();
-
-    log.set("user", currentUser);
-    log.set("type", "exercise");
-    log.set("exerciseType", exerciseType);
-    log.set("duration", Number(duration));
-    log.set("notes", notes);
-    log.set("date", new Date());
-
-    await log.save();
+    await createExerciseLog(currentUser, exerciseType, duration, notes);
     onLogSubmitted();
     setDuration("");
     setNotes("");
