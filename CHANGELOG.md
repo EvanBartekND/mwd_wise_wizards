@@ -2,7 +2,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Feature 6] - 2025-12-12
+## [Feature 6] - 2025-12-12 - 0.4.0
  
  project for feature 6
 
@@ -35,7 +35,7 @@ All notable changes to this project will be documented in this file.
 ### Deleted 
 - Days class  
 
-## [Feature 5] - 2025-11-06
+## [Feature 5] - 2025-11-06 - 0.3.0
  
  project for feature 5
 
@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file.
 
 
   
-## [Feature 4] - 2025-10-17
+## [Feature 4] - 2025-10-17 0.2.0
  
 Initialization of project for feature 4
 
