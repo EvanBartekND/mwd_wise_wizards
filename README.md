@@ -1,70 +1,201 @@
-# Getting Started with Create React App
+# Wise Wizards Fitness Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive React-based fitness tracking application that helps users monitor their daily nutrition, exercise, and progress toward their fitness goals.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+Wise Wizards is a full-stack fitness tracking application built with React and Parse (Back4App). It enables users to:
 
-### `npm start`
+- Set and manage daily fitness goals (calories, cardio, and lifting)
+- Log food intake and exercise activities
+- Track weekly progress with detailed analytics and trends
+- Calculate personalized calorie goals based on body metrics
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🔐 Authentication
+- User registration and login
+- Protected routes for authenticated users
+- Session management via Parse SDK
 
-### `npm test`
+### 🎯 Daily Goals Management
+- **Manual Goal Entry**: Set custom daily goals for calories, cardio (minutes), and lifting (minutes)
+- **Automatic Calculation**: Calculate personalized calorie goals based on:
+  - Body measurements (height, weight, age, gender, body fat %)
+  - Weight goals (lose/maintain/gain weight)
+  - Activity level
+  - Uses BMR (Basal Metabolic Rate) and TDEE (Total Daily Energy Expenditure) calculations
+- **Goal Display**: View and edit current goals with visual progress indicators
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 📝 Activity Logging
+- **Food Logging**: Track daily calorie intake
+- **Exercise Logging**: Log cardio and lifting activities with duration tracking
+- **Daily Summary**: View today's totals at a glance
 
-### `npm run build`
+### 📊 Trends & Analytics
+- **Weekly Dashboard**: View weekly statistics including:
+  - Average calories, cardio, and lifting minutes
+  - Total weekly values
+  - Progress toward goals
+- **Week View**: Visual grid showing all 7 days of the week
+- **Day Details**: Click on any day to see detailed statistics
+- **Progress Tracking**: Color-coded progress bars indicating goal completion
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🏠 Dashboard
+- Personalized welcome screen
+- Quick stats for today's activities
+- Navigation cards to main features
+- Helpful tips and guidance
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Frontend Framework**: React 19.2.0
+- **Routing**: React Router DOM 6.30.1
+- **Backend**: Parse SDK 3.5.1 (Back4App)
+- **Build Tool**: Create React App 5.0.1
+- **Testing**: React Testing Library
 
-### `npm run eject`
+## Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+src/
+├── Components/
+│   ├── Auth/              # Authentication components
+│   │   ├── Auth.js
+│   │   ├── AuthForm.js
+│   │   ├── AuthLogin.js
+│   │   └── AuthRegister.js
+│   ├── Daily/              # Daily goals management
+│   │   ├── Daily.js
+│   │   ├── BodyDataForm.js
+│   │   ├── CalorieCalculator.js
+│   │   ├── DailyGoalsDisplay.js
+│   │   ├── DailyGoalsForm.js
+│   │   └── GoalPrompt.js
+│   ├── Log/                # Activity logging
+│   │   ├── Log.js
+│   │   ├── FoodLog.js
+│   │   └── ExerciseLog.js
+│   ├── Trends/             # Analytics and trends
+│   │   ├── Trends.js
+│   │   ├── WeeklyDashboard.js
+│   │   ├── WeekDisplay.js
+│   │   ├── WeekSelector.js
+│   │   └── DayDetailModal.js
+│   ├── Main/               # Dashboard
+│   │   └── Main.js
+│   ├── Navbar/             # Navigation
+│   │   └── Navbar.js
+│   └── ProtectedRoute/     # Route protection
+│       └── ProtectedRoute.js
+├── Services/               # Backend service layer
+│   ├── AuthService.js
+│   ├── Logs.js
+│   └── People.js
+├── Utils/                  # Utility functions
+│   ├── calculations.js     # BMR, TDEE, calorie calculations
+│   ├── dateUtils.js        # Date manipulation
+│   ├── statistics.js       # Statistical calculations
+│   └── colors.js          # Color constants
+├── App.js                  # Root component
+└── index.js                # Entry point
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Database Schema
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The application uses Parse (Back4App) with the following main classes:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `_User` (Parse built-in)
+- User authentication and credentials
+- Username, email, password
 
-## Learn More
+### `people`
+- User profile and goals
+- Body measurements: height, weight, age, body fat %, gender
+- Goals: calorieGoal, cardioGoal, liftGoal
+- Weight goal settings: weightGoalType, weightGoalRate
+- Metadata: goalsSet, goalsLastUpdated
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `DailyLogs`
+- Daily activity tracking
+- Fields: date, trackedCalories, trackedCardio, trackedLift
+- One-to-many relationship with `_User`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Getting Started
 
-### Code Splitting
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Node.js (v14 or higher)
+- npm or yarn
+- Parse/Back4App account (for backend)
 
-### Analyzing the Bundle Size
+### Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd mwd_wise_wizards
+```
 
-### Making a Progressive Web App
+2. Install dependencies:
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+3. Configure environment variables:
+   - The application uses `src/environments.js` for Parse configuration
+   - Update with your Parse Application ID, JavaScript Key, and Server URL
 
-### Advanced Configuration
+4. Start the development server:
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The application will open at [http://localhost:3000](http://localhost:3000)
 
-### Deployment
+### Available Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
 
-### `npm run build` fails to minify
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. **Register/Login**: Create an account or log in to an existing one
+2. **Set Goals**: Navigate to Daily Goals to set your fitness targets
+   - Enter body measurements for automatic calculation
+   - Or manually set your goals
+3. **Log Activities**: Use the Log page to record food intake and exercises
+4. **Track Progress**: View your weekly trends and statistics on the Trends page
+
+## Key Features Explained
+
+### Calorie Calculation
+The app uses scientific formulas to calculate personalized calorie goals:
+- **BMR Calculation**: Uses Mifflin-St Jeor equation (with or without body fat %)
+- **TDEE Calculation**: Adjusts BMR based on activity level
+- **Goal Adjustment**: Modifies TDEE based on weight goals (lose/maintain/gain)
+
+### Data Aggregation
+- Daily logs are automatically aggregated per day
+- Weekly statistics calculate averages, totals, and progress percentages
+- Duplicate entries are merged to ensure data integrity
+
+## Documentation
+
+Additional documentation files:
+- `COMPONENT_TREE.md` - Detailed component hierarchy and relationships
+- `DATABASE_UML.md` - Database schema and relationships
+- `CHANGELOG.md` - Version history and changes
+
+## Version
+
+Current version: **0.4.0**
+
+## License
+
+This project is private and proprietary.
+
+## Contributing
+
+This is a private project. For questions or issues, please contact the development team.
