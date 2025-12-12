@@ -14,9 +14,9 @@ const DayDetailModal = ({ dayData, date, goals, onClose }) => {
   if (!date) return null;
 
   const hasData = dayData && (
-    dayData.trackedCalories !== null && dayData.trackedCalories !== undefined ||
-    dayData.trackedCardio !== null && dayData.trackedCardio !== undefined ||
-    dayData.trackedLift !== null && dayData.trackedLift !== undefined
+    (dayData.trackedCalories !== null && dayData.trackedCalories !== undefined) ||
+    (dayData.trackedCardio !== null && dayData.trackedCardio !== undefined) ||
+    (dayData.trackedLift !== null && dayData.trackedLift !== undefined)
   );
 
   const calories = dayData?.trackedCalories ?? null;

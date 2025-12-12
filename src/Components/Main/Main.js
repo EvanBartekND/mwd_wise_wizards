@@ -1,37 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTodaysLogs } from "../../Services/Logs";
-import { getUserProfile } from "../../Services/People";
 import { STAT_COLORS } from "../../Utils/colors";
 
 export default function Main({ currentUser }) {
   const navigate = useNavigate();
   const [todaysLog, setTodaysLog] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (currentUser) {
-      loadData();
-    }
-  }, [currentUser]);
-
-  async function loadData() {
+  const loadData = useCallback(async () => {
+    if (!currentUser) return;
     try {
       setLoading(true);
-      const [logs, profile] = await Promise.all([
-        getTodaysLogs(currentUser),
-        getUserProfile().catch(() => null)
-      ]);
-      
+      const logs = await getTodaysLogs(currentUser);
       setTodaysLog(logs.length > 0 ? logs[0] : null);
-      setUserProfile(profile);
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {
       setLoading(false);
     }
-  }
+  }, [currentUser]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   if (!currentUser) {
     return (

@@ -3,8 +3,7 @@ import {
   getUserProfile,
   updateUserGoals,
   updateBodyData,
-  updateUserProfile,
-  hasUserGoals
+  updateUserProfile
 } from "../../Services/People";
 import GoalPrompt from "./GoalPrompt";
 import DailyGoalsDisplay from "./DailyGoalsDisplay";

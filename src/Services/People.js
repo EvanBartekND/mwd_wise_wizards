@@ -1,11 +1,4 @@
 import Parse from "parse";
-import {
-  calculateBMRWithBodyFat,
-  calculateBMRWithoutBodyFat,
-  calculateTDEE,
-  calculateCalorieGoal,
-  calculateGoalsFromBodyData
-} from "../Utils/calculations";
 
 export let People = {};
 People.collection = [];

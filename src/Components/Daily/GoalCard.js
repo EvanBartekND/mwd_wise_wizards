@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 /**
  * Reusable goal card component that displays a goal and allows editing

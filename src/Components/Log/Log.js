@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { getAllPeople, People } from "../../Services/People";
+import React, { useState, useEffect, useCallback } from "react";
 import { getTodaysLogs } from "../../Services/Logs";
 import { STAT_COLORS } from "../../Utils/colors";
 
@@ -9,29 +8,19 @@ import ExerciseLog from "./ExerciseLog";
 import "./Log.css";
 
 export default function Log({ currentUser }) {
-  const [people, setPeople] = useState([]);
   const [todaysLog, setTodaysLog] = useState(null);
   const [view, setView] = useState("none");
 
-  useEffect(() => {
-    if (People.collection.length) {
-      setPeople(People.collection);
-    } else {
-      getAllPeople().then((peopleData) => {
-        setPeople(peopleData || []);
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) loadLogs();
-  }, [currentUser]);
-
-  async function loadLogs() {
+  const loadLogs = useCallback(async () => {
+    if (!currentUser) return;
     const logs = await getTodaysLogs(currentUser);
     // getTodaysLogs returns array, but now it's a single DailyLog object
     setTodaysLog(logs.length > 0 ? logs[0] : null);
-  }
+  }, [currentUser]);
+
+  useEffect(() => {
+    loadLogs();
+  }, [loadLogs]);
 
   if (!currentUser) {
     return (

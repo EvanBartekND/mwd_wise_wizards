@@ -11,9 +11,9 @@ import { formatDateDisplay, getDayName } from "../../Utils/dateUtils";
  */
 const DayCard = ({ dayData, date, goals, onClick }) => {
   const hasData = dayData && (
-    dayData.trackedCalories !== null && dayData.trackedCalories !== undefined ||
-    dayData.trackedCardio !== null && dayData.trackedCardio !== undefined ||
-    dayData.trackedLift !== null && dayData.trackedLift !== undefined
+    (dayData.trackedCalories !== null && dayData.trackedCalories !== undefined) ||
+    (dayData.trackedCardio !== null && dayData.trackedCardio !== undefined) ||
+    (dayData.trackedLift !== null && dayData.trackedLift !== undefined)
   );
 
   const calories = dayData?.trackedCalories ?? null;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CalculationPreview from "./CalculationPreview";
-import { calculateGoalsFromBodyData, ACTIVITY_LEVELS, WEIGHT_GOAL_RATES } from "../../Utils/calculations";
+import { calculateGoalsFromBodyData } from "../../Utils/calculations";
 
 /**
  * Calorie calculator component

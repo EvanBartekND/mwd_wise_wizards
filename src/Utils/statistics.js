@@ -50,9 +50,9 @@ export const getProgressColor = (percentage) => {
 export const countDaysWithData = (days) => {
   return days.filter(day => 
     day && (
-      day.trackedCalories !== null && day.trackedCalories !== undefined ||
-      day.trackedCardio !== null && day.trackedCardio !== undefined ||
-      day.trackedLift !== null && day.trackedLift !== undefined
+      (day.trackedCalories !== null && day.trackedCalories !== undefined) ||
+      (day.trackedCardio !== null && day.trackedCardio !== undefined) ||
+      (day.trackedLift !== null && day.trackedLift !== undefined)
     )
   ).length;
 };
